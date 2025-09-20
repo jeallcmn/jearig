@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@frogcat/ttl2jsonld": "^0.0.10"
+  }
+}

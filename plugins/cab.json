@@ -1,0 +1,191 @@
+{
+  "@context": {
+    "doap": "http://usefulinc.com/ns/doap#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "lv2": "http://lv2plug.in/ns/lv2core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "http://moddevices.com/plugins/mod-devel/cabsim-IR-loader",
+  "http://lv2plug.in/ns/ext/patch#writable": {
+    "@id": "http://moddevices.com/plugins/mod-devel/cabsim-IR-loader#ir"
+  },
+  "http://lv2plug.in/ns/ext/state#state": {
+    "http://moddevices.com/plugins/mod-devel/cabsim-IR-loader#ir": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/forward-audio_AliceInBones.wav"
+    }
+  },
+  "lv2:binary": {
+    "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/cabsim-IR-loader.so"
+  },
+  "lv2:extensionData": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/state#interface"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/worker#interface"
+    }
+  ],
+  "lv2:microVersion": 0,
+  "lv2:minorVersion": 1,
+  "lv2:optionalFeature": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/state#loadDefaultState"
+    },
+    {
+      "@id": "lv2:hardRTCapable"
+    }
+  ],
+  "lv2:port": [
+    {
+      "http://lv2plug.in/ns/ext/atom#bufferType": {
+        "@id": "http://lv2plug.in/ns/ext/atom#Sequence"
+      },
+      "http://lv2plug.in/ns/ext/atom#supports": {
+        "@id": "http://lv2plug.in/ns/ext/patch#Message"
+      },
+      "lv2:designation": {
+        "@id": "lv2:control"
+      },
+      "lv2:index": 0,
+      "lv2:name": "Control",
+      "lv2:symbol": "control",
+      "@type": [
+        "http://lv2plug.in/ns/ext/atom#AtomPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/ext/atom#bufferType": {
+        "@id": "http://lv2plug.in/ns/ext/atom#Sequence"
+      },
+      "http://lv2plug.in/ns/ext/atom#supports": {
+        "@id": "http://lv2plug.in/ns/ext/patch#Message"
+      },
+      "lv2:designation": {
+        "@id": "lv2:control"
+      },
+      "lv2:index": 1,
+      "lv2:name": "Notify",
+      "lv2:symbol": "notify",
+      "@type": [
+        "http://lv2plug.in/ns/ext/atom#AtomPort",
+        "lv2:OutputPort"
+      ]
+    },
+    {
+      "lv2:index": 2,
+      "lv2:name": "In",
+      "lv2:symbol": "in",
+      "@type": [
+        "lv2:AudioPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "lv2:index": 3,
+      "lv2:name": "Out",
+      "lv2:symbol": "out",
+      "@type": [
+        "lv2:AudioPort",
+        "lv2:OutputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#db"
+      },
+      "lv2:default": 0,
+      "lv2:index": 4,
+      "lv2:maximum": 0,
+      "lv2:minimum": -90,
+      "lv2:name": "Gain",
+      "lv2:symbol": "Gain",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    }
+  ],
+  "lv2:project": {
+    "@id": "http://lv2plug.in/ns/lv2"
+  },
+  "lv2:requiredFeature": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/buf-size#powerOf2BlockLength"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/urid#map"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/worker#schedule"
+    }
+  ],
+  "http://moddevices.com/ns/modgui#gui": {
+    "http://moddevices.com/ns/modgui#brand": "MOD",
+    "http://moddevices.com/ns/modgui#color": "brown",
+    "http://moddevices.com/ns/modgui#iconTemplate": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/icon-cabsim-IR-loader.html"
+    },
+    "http://moddevices.com/ns/modgui#knob": "black",
+    "http://moddevices.com/ns/modgui#label": "IR loader",
+    "http://moddevices.com/ns/modgui#model": "boxy",
+    "http://moddevices.com/ns/modgui#panel": "1-select-1-knob",
+    "http://moddevices.com/ns/modgui#port": {
+      "lv2:index": 0,
+      "lv2:name": "Gain",
+      "lv2:symbol": "Gain"
+    },
+    "http://moddevices.com/ns/modgui#resourcesDirectory": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui"
+    },
+    "http://moddevices.com/ns/modgui#screenshot": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/mod_cabsim_IR_loader_ss.png"
+    },
+    "http://moddevices.com/ns/modgui#stylesheet": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/stylesheet-cabsim-IR-loader.css"
+    },
+    "http://moddevices.com/ns/modgui#thumbnail": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/mod_cabsim_IR_loader_tn.png"
+    }
+  },
+  "doap:developer": {
+    "foaf:homepage": {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/cabsim-IR-loader.ttl"
+    },
+    "foaf:mbox": {
+      "@id": "mailto:bram@moddevices.com"
+    },
+    "foaf:name": "Jarno Verheesen & Bram Giesen"
+  },
+  "doap:license": [
+    "GPL",
+    {
+      "@id": "http://opensource.org/licenses/isc"
+    }
+  ],
+  "doap:maintainer": {
+    "foaf:homepage": {
+      "@id": "http://moddevices.com"
+    },
+    "foaf:mbox": {
+      "@id": "mailto:bram@moddevices.com"
+    },
+    "foaf:name": "MOD"
+  },
+  "doap:name": "IR loader cabsim",
+  "@type": [
+    "lv2:Plugin",
+    "lv2:SimulatorPlugin"
+  ],
+  "rdfs:comment": "\nA cabinet simulator plugin that loads impulse response (IR) files.\n\nIn order for your personal IR files to show up in the list of available files for this plugin, please place the files in the “Speaker Cabinet IRs” folder of your device.\n\nThis plugin is specifically created for handling speaker cabinet IRs, this plugin is not optimized for handling larger files like reverb IRs.\n\nCurrently it only uses the first 42.7 ms (2048 samples at 48 kHz sampling rate) of the loaded IR file.\nIR files at different sample rates are resampled to 48 kHz by the plugin.\nIt is recommended to trim any silence at the start of the IR file for optimal results.\n\nFeatures:\nPlugin by MOD Devices\nDefault IR file by forward audio\n",
+  "rdfs:seeAlso": [
+    {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/cabsim-IR-loader.ttl"
+    },
+    {
+      "@id": "file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui.ttl"
+    }
+  ]
+}

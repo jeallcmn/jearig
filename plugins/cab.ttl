@@ -1,0 +1,116 @@
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://moddevices.com/plugins/mod-devel/cabsim-IR-loader>
+	<http://lv2plug.in/ns/ext/patch#writable> <http://moddevices.com/plugins/mod-devel/cabsim-IR-loader#ir> ;
+	<http://lv2plug.in/ns/ext/state#state> [
+		<http://moddevices.com/plugins/mod-devel/cabsim-IR-loader#ir> <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/forward-audio_AliceInBones.wav>
+	] ;
+	lv2:binary <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/cabsim-IR-loader.so> ;
+	lv2:extensionData <http://lv2plug.in/ns/ext/state#interface> ,
+		<http://lv2plug.in/ns/ext/worker#interface> ;
+	lv2:microVersion 0 ;
+	lv2:minorVersion 1 ;
+	lv2:optionalFeature <http://lv2plug.in/ns/ext/state#loadDefaultState> ,
+		lv2:hardRTCapable ;
+	lv2:port [
+		<http://lv2plug.in/ns/ext/atom#bufferType> <http://lv2plug.in/ns/ext/atom#Sequence> ;
+		<http://lv2plug.in/ns/ext/atom#supports> <http://lv2plug.in/ns/ext/patch#Message> ;
+		lv2:designation lv2:control ;
+		lv2:index 0 ;
+		lv2:name "Control" ;
+		lv2:symbol "control" ;
+		a <http://lv2plug.in/ns/ext/atom#AtomPort> ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/ext/atom#bufferType> <http://lv2plug.in/ns/ext/atom#Sequence> ;
+		<http://lv2plug.in/ns/ext/atom#supports> <http://lv2plug.in/ns/ext/patch#Message> ;
+		lv2:designation lv2:control ;
+		lv2:index 1 ;
+		lv2:name "Notify" ;
+		lv2:symbol "notify" ;
+		a <http://lv2plug.in/ns/ext/atom#AtomPort> ,
+			lv2:OutputPort
+	] , [
+		lv2:index 2 ;
+		lv2:name "In" ;
+		lv2:symbol "in" ;
+		a lv2:AudioPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 3 ;
+		lv2:name "Out" ;
+		lv2:symbol "out" ;
+		a lv2:AudioPort ,
+			lv2:OutputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 4 ;
+		lv2:maximum 0 ;
+		lv2:minimum -90 ;
+		lv2:name "Gain" ;
+		lv2:symbol "Gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] ;
+	lv2:project <http://lv2plug.in/ns/lv2> ;
+	lv2:requiredFeature <http://lv2plug.in/ns/ext/buf-size#powerOf2BlockLength> ,
+		<http://lv2plug.in/ns/ext/urid#map> ,
+		<http://lv2plug.in/ns/ext/worker#schedule> ;
+	<http://moddevices.com/ns/modgui#gui> [
+		<http://moddevices.com/ns/modgui#brand> "MOD" ;
+		<http://moddevices.com/ns/modgui#color> "brown" ;
+		<http://moddevices.com/ns/modgui#iconTemplate> <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/icon-cabsim-IR-loader.html> ;
+		<http://moddevices.com/ns/modgui#knob> "black" ;
+		<http://moddevices.com/ns/modgui#label> "IR loader" ;
+		<http://moddevices.com/ns/modgui#model> "boxy" ;
+		<http://moddevices.com/ns/modgui#panel> "1-select-1-knob" ;
+		<http://moddevices.com/ns/modgui#port> [
+			lv2:index 0 ;
+			lv2:name "Gain" ;
+			lv2:symbol "Gain"
+		] ;
+		<http://moddevices.com/ns/modgui#resourcesDirectory> <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui> ;
+		<http://moddevices.com/ns/modgui#screenshot> <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/mod_cabsim_IR_loader_ss.png> ;
+		<http://moddevices.com/ns/modgui#stylesheet> <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/stylesheet-cabsim-IR-loader.css> ;
+		<http://moddevices.com/ns/modgui#thumbnail> <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui/mod_cabsim_IR_loader_tn.png>
+	] ;
+	doap:developer [
+		foaf:homepage <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/cabsim-IR-loader.ttl> ;
+		foaf:mbox <mailto:bram@moddevices.com> ;
+		foaf:name "Jarno Verheesen & Bram Giesen"
+	] ;
+	doap:license "GPL" ,
+		<http://opensource.org/licenses/isc> ;
+	doap:maintainer [
+		foaf:homepage <http://moddevices.com> ;
+		foaf:mbox <mailto:bram@moddevices.com> ;
+		foaf:name "MOD"
+	] ;
+	doap:name "IR loader cabsim" ;
+	a lv2:Plugin ,
+		lv2:SimulatorPlugin ;
+	rdfs:comment """
+A cabinet simulator plugin that loads impulse response (IR) files.
+
+In order for your personal IR files to show up in the list of available files for this plugin, please place the files in the “Speaker Cabinet IRs” folder of your device.
+
+This plugin is specifically created for handling speaker cabinet IRs, this plugin is not optimized for handling larger files like reverb IRs.
+
+Currently it only uses the first 42.7 ms (2048 samples at 48 kHz sampling rate) of the loaded IR file.
+IR files at different sample rates are resampled to 48 kHz by the plugin.
+It is recommended to trim any silence at the start of the IR file for optimal results.
+
+Features:
+Plugin by MOD Devices
+Default IR file by forward audio
+""" ;
+	rdfs:seeAlso <file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/cabsim-IR-loader.ttl> ,
+		<file:///usr/local/lib/lv2/cabsim-IR-loader.lv2/modgui.ttl> .
+

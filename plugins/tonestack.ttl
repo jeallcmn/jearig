@@ -1,0 +1,121 @@
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://distrho.sf.net/plugins/3BandEQ>
+	<http://lv2plug.in/ns/ext/options#supportedOption> <http://lv2plug.in/ns/ext/buf-size#maxBlockLength> ,
+		<http://lv2plug.in/ns/ext/buf-size#nominalBlockLength> ,
+		<http://lv2plug.in/ns/ext/parameters#sampleRate> ;
+	<http://lv2plug.in/ns/extensions/ui#ui> <http://distrho.sf.net/plugins/3BandEQ#DPF_UI> ;
+	lv2:binary <file:///usr/lib/lv2/3BandEQ.lv2/3BandEQ_dsp.so> ;
+	lv2:extensionData <http://kxstudio.sf.net/ns/lv2ext/programs#Interface> ,
+		<http://lv2plug.in/ns/ext/options#interface> ;
+	lv2:microVersion 0 ;
+	lv2:minorVersion 2 ;
+	lv2:optionalFeature <http://lv2plug.in/ns/ext/buf-size#boundedBlockLength> ,
+		lv2:hardRTCapable ;
+	lv2:port [
+		lv2:index 0 ;
+		lv2:name "Audio Input 1" ;
+		lv2:symbol "lv2_audio_in_1" ;
+		a lv2:AudioPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#hz> ;
+		lv2:default 1000 ;
+		lv2:index 9 ;
+		lv2:maximum 20000 ;
+		lv2:minimum 1000 ;
+		lv2:name "Mid-High Freq" ;
+		lv2:symbol "mid_high" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 1 ;
+		lv2:name "Audio Input 2" ;
+		lv2:symbol "lv2_audio_in_2" ;
+		a lv2:AudioPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 2 ;
+		lv2:name "Audio Output 1" ;
+		lv2:symbol "lv2_audio_out_1" ;
+		a lv2:AudioPort ,
+			lv2:OutputPort
+	] , [
+		lv2:index 3 ;
+		lv2:name "Audio Output 2" ;
+		lv2:symbol "lv2_audio_out_2" ;
+		a lv2:AudioPort ,
+			lv2:OutputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 4 ;
+		lv2:maximum 24 ;
+		lv2:minimum -24 ;
+		lv2:name "Low" ;
+		lv2:symbol "low" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 5 ;
+		lv2:maximum 24 ;
+		lv2:minimum -24 ;
+		lv2:name "Mid" ;
+		lv2:symbol "mid" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 6 ;
+		lv2:maximum 24 ;
+		lv2:minimum -24 ;
+		lv2:name "High" ;
+		lv2:symbol "high" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 7 ;
+		lv2:maximum 24 ;
+		lv2:minimum -24 ;
+		lv2:name "Master" ;
+		lv2:symbol "master" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#hz> ;
+		lv2:default 440 ;
+		lv2:index 8 ;
+		lv2:maximum 1000 ;
+		lv2:minimum 0 ;
+		lv2:name "Low-Mid Freq" ;
+		lv2:symbol "low_mid" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] ;
+	lv2:requiredFeature <http://lv2plug.in/ns/ext/options#options> ,
+		<http://lv2plug.in/ns/ext/urid#map> ;
+	<http://moddevices.com/ns/mod#brand> "DISTRHO" ;
+	<http://moddevices.com/ns/mod#label> "3 Band EQ" ;
+	doap:license <https://opensource.org/licenses/lgpl-license> ;
+	doap:maintainer [
+		foaf:homepage <https://github.com/DISTRHO/Mini-Series> ;
+		foaf:name "DISTRHO"
+	] ;
+	doap:name "3 Band EQ" ;
+	a lv2:EQPlugin ,
+		lv2:Plugin ,
+		doap:Project ;
+	rdfs:comment "3 Band Equalizer, stereo version." ;
+	rdfs:seeAlso <file:///usr/lib/lv2/3BandEQ.lv2/3BandEQ_dsp.ttl> .
+

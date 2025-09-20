@@ -1,0 +1,9 @@
+http://gareus.org/oss/lv2/stepseq#s8n8
+Note 1 Kick 36   1,5,8, Grid S: 1, N 1  where (s = sequenc), N = note)
+Note 2 Snare 38 3,7
+Note 3 HH Closed 42 1,2,3,4,5,6,7,8
+
+Red Zeppelin Drums
+
+
+

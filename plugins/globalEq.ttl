@@ -1,0 +1,326 @@
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://eq10q.sourceforge.net/eq/eq4qs>
+	<http://lv2plug.in/ns/extensions/ui#ui> <http://eq10q.sourceforge.net/eq/eq10q/gui> ;
+	lv2:binary <file:///usr/lib/lv2/sapistaEQv2.lv2/eq4qs.so> ;
+	lv2:optionalFeature lv2:hardRTCapable ;
+	lv2:port [
+		lv2:default 0 ;
+		lv2:index 0 ;
+		lv2:maximum 1 ;
+		lv2:minimum 0 ;
+		lv2:name "Bypass" ;
+		lv2:portProperty lv2:toggled ;
+		lv2:symbol "bypass" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 9 ;
+		lv2:maximum 20 ;
+		lv2:minimum -20 ;
+		lv2:name "Filter 3 Gain" ;
+		lv2:symbol "filter3_gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 10 ;
+		lv2:maximum 20 ;
+		lv2:minimum -20 ;
+		lv2:name "Filter 4 Gain" ;
+		lv2:symbol "filter4_gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#hz> ;
+		lv2:default 30 ;
+		lv2:index 11 ;
+		lv2:maximum 20000 ;
+		lv2:minimum 20 ;
+		lv2:name "Filter 1 Freq" ;
+		lv2:portProperty <http://lv2plug.in/ns/ext/port-props#logarithmic> ;
+		lv2:symbol "filter1_freq" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#hz> ;
+		lv2:default 150 ;
+		lv2:index 12 ;
+		lv2:maximum 20000 ;
+		lv2:minimum 20 ;
+		lv2:name "Filter 2 Freq" ;
+		lv2:portProperty <http://lv2plug.in/ns/ext/port-props#logarithmic> ;
+		lv2:symbol "filter2_freq" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#hz> ;
+		lv2:default 750 ;
+		lv2:index 13 ;
+		lv2:maximum 20000 ;
+		lv2:minimum 20 ;
+		lv2:name "Filter 3 Freq" ;
+		lv2:portProperty <http://lv2plug.in/ns/ext/port-props#logarithmic> ;
+		lv2:symbol "filter3_freq" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#hz> ;
+		lv2:default 3750 ;
+		lv2:index 14 ;
+		lv2:maximum 20000 ;
+		lv2:minimum 20 ;
+		lv2:name "Filter 4 Freq" ;
+		lv2:portProperty <http://lv2plug.in/ns/ext/port-props#logarithmic> ;
+		lv2:symbol "filter4_freq" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0.7 ;
+		lv2:index 15 ;
+		lv2:maximum 16 ;
+		lv2:minimum 0.1 ;
+		lv2:name "Filter 1 Q" ;
+		lv2:symbol "filter1_q" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0.7 ;
+		lv2:index 16 ;
+		lv2:maximum 16 ;
+		lv2:minimum 0.1 ;
+		lv2:name "Filter 2 Q" ;
+		lv2:symbol "filter2_q" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 2 ;
+		lv2:index 17 ;
+		lv2:maximum 16 ;
+		lv2:minimum 0.1 ;
+		lv2:name "Filter 3 Q" ;
+		lv2:symbol "filter3_q" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0.7 ;
+		lv2:index 18 ;
+		lv2:maximum 16 ;
+		lv2:minimum 0.1 ;
+		lv2:name "Filter 4 Q" ;
+		lv2:symbol "filter4_q" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 1 ;
+		lv2:maximum 20 ;
+		lv2:minimum -20 ;
+		lv2:name "Input Gain" ;
+		lv2:symbol "input_gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 6 ;
+		lv2:index 19 ;
+		lv2:maximum 12 ;
+		lv2:minimum 1 ;
+		lv2:name "Filter 1 Type" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter1_type" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 9 ;
+		lv2:index 20 ;
+		lv2:maximum 12 ;
+		lv2:minimum 1 ;
+		lv2:name "Filter 2 Type" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter2_type" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 11 ;
+		lv2:index 21 ;
+		lv2:maximum 12 ;
+		lv2:minimum 1 ;
+		lv2:name "Filter 3 Type" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter3_type" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 10 ;
+		lv2:index 22 ;
+		lv2:maximum 12 ;
+		lv2:minimum 1 ;
+		lv2:name "Filter 4 Type" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter4_type" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0 ;
+		lv2:index 23 ;
+		lv2:maximum 5 ;
+		lv2:minimum 0 ;
+		lv2:name "Filter 1 Enable" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter1_enable" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0 ;
+		lv2:index 24 ;
+		lv2:maximum 5 ;
+		lv2:minimum 0 ;
+		lv2:name "Filter 2 Enable" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter2_enable" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0 ;
+		lv2:index 25 ;
+		lv2:maximum 5 ;
+		lv2:minimum 0 ;
+		lv2:name "Filter 3 Enable" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter3_enable" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:default 0 ;
+		lv2:index 26 ;
+		lv2:maximum 5 ;
+		lv2:minimum 0 ;
+		lv2:name "Filter 4 Enable" ;
+		lv2:portProperty lv2:integer ;
+		lv2:symbol "filter4_enable" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 27 ;
+		lv2:name "In 1 Vu CTL" ;
+		lv2:symbol "in_1_vu_ctl" ;
+		a lv2:ControlPort ,
+			lv2:OutputPort
+	] , [
+		lv2:index 28 ;
+		lv2:name "In 2 Vu CTL" ;
+		lv2:symbol "in_2_vu_ctl" ;
+		a lv2:ControlPort ,
+			lv2:OutputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 2 ;
+		lv2:maximum 20 ;
+		lv2:minimum -20 ;
+		lv2:name "Output Gain" ;
+		lv2:symbol "output_gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 29 ;
+		lv2:name "Out 1 VU CTL" ;
+		lv2:symbol "out_2_vu_ctl" ;
+		a lv2:ControlPort ,
+			lv2:OutputPort
+	] , [
+		lv2:index 30 ;
+		lv2:name "Out 2 VU CTL" ;
+		lv2:symbol "out_2_vu_ctl" ;
+		a lv2:ControlPort ,
+			lv2:OutputPort
+	] , [
+		<http://lv2plug.in/ns/ext/atom#bufferType> <http://lv2plug.in/ns/ext/atom#Sequence> ;
+		<http://lv2plug.in/ns/ext/resize-port#minimumSize> 73000 ;
+		lv2:index 31 ;
+		lv2:name "Notify" ;
+		lv2:symbol "notify" ;
+		a <http://lv2plug.in/ns/ext/atom#AtomPort> ,
+			lv2:OutputPort
+	] , [
+		<http://lv2plug.in/ns/ext/atom#bufferType> <http://lv2plug.in/ns/ext/atom#Sequence> ;
+		lv2:designation lv2:control ;
+		lv2:index 32 ;
+		lv2:name "Control" ;
+		lv2:symbol "control" ;
+		a <http://lv2plug.in/ns/ext/atom#AtomPort> ,
+			lv2:InputPort
+	] , [
+		lv2:default 0 ;
+		lv2:index 33 ;
+		lv2:maximum 1 ;
+		lv2:minimum 0 ;
+		lv2:name "Mid Side Mode" ;
+		lv2:portProperty lv2:toggled ;
+		lv2:symbol "midsidemode" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 3 ;
+		lv2:name "Input1" ;
+		lv2:symbol "input1" ;
+		a lv2:AudioPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 4 ;
+		lv2:name "Input2" ;
+		lv2:symbol "input2" ;
+		a lv2:AudioPort ,
+			lv2:InputPort
+	] , [
+		lv2:index 5 ;
+		lv2:name "Output1" ;
+		lv2:symbol "output1" ;
+		a lv2:AudioPort ,
+			lv2:OutputPort
+	] , [
+		lv2:index 6 ;
+		lv2:name "Output2" ;
+		lv2:symbol "output2" ;
+		a lv2:AudioPort ,
+			lv2:OutputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 7 ;
+		lv2:maximum 20 ;
+		lv2:minimum -20 ;
+		lv2:name "Filter 1 Gain" ;
+		lv2:symbol "filter1_gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] , [
+		<http://lv2plug.in/ns/extensions/units#unit> <http://lv2plug.in/ns/extensions/units#db> ;
+		lv2:default 0 ;
+		lv2:index 8 ;
+		lv2:maximum 20 ;
+		lv2:minimum -20 ;
+		lv2:name "Filter 2 Gain" ;
+		lv2:symbol "filter2_gain" ;
+		a lv2:ControlPort ,
+			lv2:InputPort
+	] ;
+	lv2:project <http://eq10q.sourceforge.net/eq10qplugins> ;
+	lv2:requiredFeature <http://lv2plug.in/ns/ext/urid#map> ;
+	doap:license <http://usefulinc.com/doap/licenses/gpl> ;
+	doap:name "EQ4Q Stereo" ;
+	a lv2:EQPlugin ,
+		lv2:Plugin ,
+		doap:Project ;
+	rdfs:seeAlso <file:///usr/lib/lv2/sapistaEQv2.lv2/eq4qs.ttl> .
+

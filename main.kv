@@ -1,0 +1,179 @@
+<BypassButton>:
+    on_release: root.toggle()
+    MDButtonIcon:
+        icon: "plus"
+    MDButtonText: 
+        text: "Bypass"
+
+
+# on_press = self.toggle()
+#     md_bg_color=self.theme_cls.surfaceColor,
+
+# )
+<BaseMDTabsItem>:
+    MDTabsItemIcon:
+        icon: root.icon
+    MDTabsItemText:
+        text: root.text
+
+<AmpScreen>:
+    # size_hint: None, None
+    # size: "240dp", "100dp"
+    MDBoxLayout:
+        orientation: 'vertical'
+        margin: dp(10)
+        MDGridLayout:
+            cols: 2
+            MDLabel:
+                text: "Input Gain"
+            MDLabel:
+                text: "Output Gain"
+            MDSlider:
+                id: input_level
+                min: -12
+                max: 12
+                on_value_pos: root.set_input_value(input_level.value)
+                step: 1
+                value: 0
+                hint: True
+                active: True
+                pos_hint: {'center_x':.5, 'center_y':.5}
+                MDSliderHandle:
+                MDSliderValueLabel:
+            MDSlider:
+                id: output_level
+                min: -12
+                max: 12
+                on_value_pos: root.set_output_value(output_level.value)
+                step: 1
+                value: 0
+                hint: True
+                active: True
+                pos_hint: {'center_x':.5, 'center_y':.5}
+                MDSliderHandle:
+                MDSliderValueLabel:
+            BypassButton:
+                on_bypass: root.toggle_bypass()
+            MDButton:
+                on_release: root.show_file_manager()
+                MDButtonText:
+                    text: "Select Amp"
+
+<CabScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDLabel:
+            text: "Output"
+        MDSlider:
+            id: output_level
+            min: 0
+            max: 90
+            on_value_pos: root.set_output_value(output_level.value)
+            step: 1
+            value: 90
+            hint: True
+            active: True
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            MDSliderHandle:
+            MDSliderValueLabel:
+        BypassButton:
+            on_bypass: root.toggle_bypass()
+
+        MDButton:
+            on_release: root.show_file_manager()
+            MDButtonText:
+                text: "Select Cab"
+<ReverbScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        BypassButton:
+            on_bypass: root.toggle_bypass()
+
+
+<BaseScreen>:
+    Button:
+        text: f"https://picsum.photos/{root.image_size}/{root.image_size}"
+        size_hint: .9, .9
+        pos_hint: {"center_x": .5, "center_y": .5}
+        radius: dp(24)
+
+
+MDBoxLayout:
+    md_bg_color: self.theme_cls.backgroundColor
+    MDTabsPrimary:
+        id: tabs
+        size_hint_y: 1
+        size_hint_x: 1
+        BaseMDTabsItem:
+            icon: "speaker"
+            text: "Amp"
+        BaseMDTabsItem:
+            icon: "speaker"
+            text: "Cab"
+        BaseMDTabsItem:
+            icon: "waveform"
+            text: "Tonestack"
+        BaseMDTabsItem:
+            icon: "home-sound-out-outline"
+            text: "Reverb"
+        BaseMDTabsItem:
+            icon: "audio-input-stereo-minijack"
+            text: "Output"
+        MDDivider:
+        MDTabsCarousel:
+            id: related_content_container
+            AmpScreen:
+            CabScreen:
+            MDCard:
+            ReverbScreen:
+            MDCard:
+        # BaseScreen:
+        #     name: "Input"
+        #     image_size: "1024"
+
+        # AmpScreen:
+        #     name: "Amp"
+        #     image_size: "800"
+
+        # CabScreen:
+        #     name: "Cab"
+        #     image_size: "600"
+            
+        # BaseScreen:
+        #     name: "Tonestack"
+        #     image_size: "600"
+
+        # BaseScreen:
+        #     name: "Reverb"
+        #     image_size: "600"
+
+        # BaseScreen:
+        #     name: "Output"
+        #     image_size: "600"            
+
+        # MDTabsPrimary:
+        #     on_switch_tabs: app.on_switch_tabs(*args)
+
+        #     # BaseMDTabsItem
+        #     #     icon: "audio-input-stereo-minijack"
+        #     #     text: "Input"
+
+        #     BaseMDTabItem
+        #         icon: "speaker"
+        #         text: "Amp"
+
+        # BaseMDTabItem
+        #     icon: "speaker"
+        #     text: "Cab"
+
+        # BaseMDTabItem
+        #     icon: "waveform"
+        #     text: "Tonestack"
+
+        # BaseMDTabItem
+        #     icon: "home-sound-out-outline"
+        #     text: "Reverb"
+
+        # BaseMDTabItem
+        #     icon: "audio-input-stereo-minijack"
+        #     text: "Output"

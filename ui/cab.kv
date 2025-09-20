@@ -1,0 +1,19 @@
+<CabScreen>:
+        MDLabel:
+            text: "Output"
+        MDSlider:
+            id: output_level
+            min: 0
+            max: 90
+            on_value_pos: root.set_output_value(output_level.value)
+            step: 1
+            value: 90
+            hint: True
+            active: True
+            pos_hint: {'center_x':.5, 'center_y':.5}
+            MDSliderHandle:
+            MDSliderValueLabel:
+        MDButton:
+            on_release: root.show_file_manager()
+            MDButtonText:
+                text: "Select Cab"

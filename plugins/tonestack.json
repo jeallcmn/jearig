@@ -1,0 +1,203 @@
+{
+  "@context": {
+    "doap": "http://usefulinc.com/ns/doap#",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "lv2": "http://lv2plug.in/ns/lv2core#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
+  },
+  "@id": "http://distrho.sf.net/plugins/3BandEQ",
+  "http://lv2plug.in/ns/ext/options#supportedOption": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/buf-size#maxBlockLength"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/buf-size#nominalBlockLength"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/parameters#sampleRate"
+    }
+  ],
+  "http://lv2plug.in/ns/extensions/ui#ui": {
+    "@id": "http://distrho.sf.net/plugins/3BandEQ#DPF_UI"
+  },
+  "lv2:binary": {
+    "@id": "file:///usr/lib/lv2/3BandEQ.lv2/3BandEQ_dsp.so"
+  },
+  "lv2:extensionData": [
+    {
+      "@id": "http://kxstudio.sf.net/ns/lv2ext/programs#Interface"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/options#interface"
+    }
+  ],
+  "lv2:microVersion": 0,
+  "lv2:minorVersion": 2,
+  "lv2:optionalFeature": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/buf-size#boundedBlockLength"
+    },
+    {
+      "@id": "lv2:hardRTCapable"
+    }
+  ],
+  "lv2:port": [
+    {
+      "lv2:index": 0,
+      "lv2:name": "Audio Input 1",
+      "lv2:symbol": "lv2_audio_in_1",
+      "@type": [
+        "lv2:AudioPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#hz"
+      },
+      "lv2:default": 1000,
+      "lv2:index": 9,
+      "lv2:maximum": 20000,
+      "lv2:minimum": 1000,
+      "lv2:name": "Mid-High Freq",
+      "lv2:symbol": "mid_high",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "lv2:index": 1,
+      "lv2:name": "Audio Input 2",
+      "lv2:symbol": "lv2_audio_in_2",
+      "@type": [
+        "lv2:AudioPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "lv2:index": 2,
+      "lv2:name": "Audio Output 1",
+      "lv2:symbol": "lv2_audio_out_1",
+      "@type": [
+        "lv2:AudioPort",
+        "lv2:OutputPort"
+      ]
+    },
+    {
+      "lv2:index": 3,
+      "lv2:name": "Audio Output 2",
+      "lv2:symbol": "lv2_audio_out_2",
+      "@type": [
+        "lv2:AudioPort",
+        "lv2:OutputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#db"
+      },
+      "lv2:default": 0,
+      "lv2:index": 4,
+      "lv2:maximum": 24,
+      "lv2:minimum": -24,
+      "lv2:name": "Low",
+      "lv2:symbol": "low",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#db"
+      },
+      "lv2:default": 0,
+      "lv2:index": 5,
+      "lv2:maximum": 24,
+      "lv2:minimum": -24,
+      "lv2:name": "Mid",
+      "lv2:symbol": "mid",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#db"
+      },
+      "lv2:default": 0,
+      "lv2:index": 6,
+      "lv2:maximum": 24,
+      "lv2:minimum": -24,
+      "lv2:name": "High",
+      "lv2:symbol": "high",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#db"
+      },
+      "lv2:default": 0,
+      "lv2:index": 7,
+      "lv2:maximum": 24,
+      "lv2:minimum": -24,
+      "lv2:name": "Master",
+      "lv2:symbol": "master",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    },
+    {
+      "http://lv2plug.in/ns/extensions/units#unit": {
+        "@id": "http://lv2plug.in/ns/extensions/units#hz"
+      },
+      "lv2:default": 440,
+      "lv2:index": 8,
+      "lv2:maximum": 1000,
+      "lv2:minimum": 0,
+      "lv2:name": "Low-Mid Freq",
+      "lv2:symbol": "low_mid",
+      "@type": [
+        "lv2:ControlPort",
+        "lv2:InputPort"
+      ]
+    }
+  ],
+  "lv2:requiredFeature": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/options#options"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/urid#map"
+    }
+  ],
+  "http://moddevices.com/ns/mod#brand": "DISTRHO",
+  "http://moddevices.com/ns/mod#label": "3 Band EQ",
+  "doap:license": {
+    "@id": "https://opensource.org/licenses/lgpl-license"
+  },
+  "doap:maintainer": {
+    "foaf:homepage": {
+      "@id": "https://github.com/DISTRHO/Mini-Series"
+    },
+    "foaf:name": "DISTRHO"
+  },
+  "doap:name": "3 Band EQ",
+  "@type": [
+    "lv2:EQPlugin",
+    "lv2:Plugin",
+    "doap:Project"
+  ],
+  "rdfs:comment": "3 Band Equalizer, stereo version.",
+  "rdfs:seeAlso": {
+    "@id": "file:///usr/lib/lv2/3BandEQ.lv2/3BandEQ_dsp.ttl"
+  }
+}
