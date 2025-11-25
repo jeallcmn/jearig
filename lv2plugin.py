@@ -47,18 +47,20 @@ class Plugin:
     def __str__(self):
         ports = "\n\t\t".join([str(p) for p in self.ports])
         return f"{self.name} ({self.uri})\n\tPorts:\n\t\t{ports}\n\tPatch:{self.patch}"
-    def create_effect(self, host):
-        e = effect.Effect(host, self.uri)
-        # if self.patch:
-        #     patchId = self.patch['@id']
-        #     p = patchId.split["#"][1]
-        #     setattr(e, p, lambda x: e.patch(patchId, x))
+    def create_global_effect(self, host):
+        e = effect.Effect(self, host, self.uri, globalEffect=True)
         return e
-
-
-if __name__=="__main__":
-    import sys
-    plugin = Plugin.load(sys.argv[1])
+    def create_effect(self, host):
+        e = effect.Effect(self, host, self.uri)
+        return e
+    def get_input_controls(self):
+        return [p.symbol for p in self.ports if p.is_control and p.is_input]
+    
+    def get_patch_controls(self):
+        return self.patch['@id']
+    
+    # import sys
+    # plugin = Plugin.load(sys.argv[1])
     # with open(sys.argv[1]) as file:
     #     plugin = Plugin(json.load(file))
     #     print(plugin)

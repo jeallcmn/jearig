@@ -23,10 +23,10 @@ class ModProtocol:
         return 'transport_sync {}'.format(mode)
     def preset_load(self, id, uri):
         return 'preset_load {} {}'.format(id, uri)
-    def preset_save(self, id, name, dir, uri):
-        return 'preset_save {} {} {} {}'.format(id, name, dir, uri)
-    def preset_show(self, id, uri):
-        return 'preset_show {} {}'.format(id, uri)
+    def preset_save(self, id, name, dir, file):
+        return 'preset_save {} {} {} {}'.format(id, name, dir, file)
+    def preset_show(self, uri):
+        return 'preset_show {}'.format(uri)
     def param_set(self, id, symbol, value):
         return 'param_set {} {} {}'.format(id, symbol, value)
     def param_get(self, id, symbol):
@@ -35,6 +35,8 @@ class ModProtocol:
         pass
     def patch_set(self, id, uri, value):
         return 'patch_set {} {} "{}"'.format(id, uri, value)  
+    def patch_get(self, id, uri):
+        return 'patch_get {} {}'.format(id, uri)      
     def monitor():
         pass
     def midi_learn(self, plugin, param):
@@ -122,18 +124,21 @@ class Host():
         return self.connection.send(self.protocol.transport_sync(mode))
     def preset_load(self, id, uri):
         return self.connection.send(self.protocol.preset_load(id, uri))
-    def preset_save(self, id, name, dir, uri):
-        return self.connection.send(self.protocol.preset_save(id, name, dir, uri))
-    def preset_show(self, id, uri):
-        return self.connection.send(self.protocol.preset_show(id, uri))
+    def preset_save(self, id, name, dir, file):
+        return self.connection.send(self.protocol.preset_save(id, name, dir, file))
+    def preset_show(self, uri):
+        return self.connection.send(self.protocol.preset_show(uri))
     def param_set(self, id, symbol, value):
         return self.connection.send(self.protocol.param_set(id, symbol, value))
     def param_get(self, id, symbol):
-        return self.connection.send(self.protocol.param_get(id, symbol))
+        response = str(self.connection.send(self.protocol.param_get(id, symbol)))
+        return float(response.split(' ')[2].split('\\')[0])
     def param_monitor(self):
         return self.connection.send(self.protocol.param_monitor(id))
     def patch_set(self, id,  uri, value):
         return self.connection.send(self.protocol.patch_set(id, uri, value))
+    def patch_get(self, id,  uri):
+        return self.connection.send(self.protocol.patch_get(id, uri))    
     def monitor(self):
         return self.connection.send(self.protocol.monitor())
     def midi_learn(self, id, param):

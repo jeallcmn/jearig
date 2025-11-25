@@ -1,7 +1,9 @@
 import lv2plugin
 from host import Host
 from effect import Effect,SystemEffect
-
+from drumkit import DrumKit
+from state import StateManager
+from patch import PatchManager
 host = Host()
 
 pluginNames = ['amp', 'cab', 'globalEq', 'hallReverb', 'tonestack', 'sequencer', 'drumkit']
@@ -17,9 +19,11 @@ tonestack   = plugins['tonestack'].create_effect(host)
 cab         = plugins['cab'].create_effect(host)
 hallReverb  = plugins['hallReverb'].create_effect(host)
 globalEq    = plugins['globalEq'].create_effect(host)
-sequencer  = plugins['sequencer'].create_effect(host)
-drumkit  = plugins['drumkit'].create_effect(host)
 
+sequencer  = plugins['sequencer'].create_global_effect(host)
+drumkit  = plugins['drumkit'].create_global_effect(host)
+
+stateManager = StateManager()
 
 device.connect(amp)
 amp.connect(cab) 
@@ -44,37 +48,38 @@ tonestack.param('mid_high', 2300)
 globalEq.param('filter4_enable', 1)
 globalEq.param('filter4_gain', -12)
 globalEq.param('filter4_type', 10)
-globalEq.param('filter4_freq', 6000)
+globalEq.param('filter4_freq', 8000)
 globalEq.param('filter4_q', .7)
 
-amp.patch('model', '/home/jona/Desktop/5150-2.nam')
-cab.patch('ir', '/home/jona/v30-7.wav')
+amp.patch('/home/jona/Desktop/5150-2.nam')
+cab.patch('/home/jona/v30-7.wav')
+
+hallReverb.param('size', 40)
+hallReverb.param('decay', 1.1)
+hallReverb.param('early_send', 10)
 
 #Midi
 host.transport(1, 4, 134)
 host.transport_sync('midi')
 
-# Sequencery / Drum Track
-sequencer.param('drummode', 1) # change to drum sequencing, otherwise not all events are fired
-sequencer.param('sync', 1) # Sync to host (mod)
-sequencer.param('div', 2) # 8th
+kit = DrumKit(sequencer)
 
-#Instruments
-sequencer.param('note1', 36)
-sequencer.param('note2', 38)
-sequencer.param('note3', 42)
+kit.set_kick([120,0,0,0,120,0,0,0])
+kit.set_snare([0,0,120,0,0,0,120,0])
+kit.set_hihat([120,120,120,120,120,120,120,120])
 
+def patch1():
+    amp.patch('model', '/home/jona/Desktop/5150-2.nam')
+    cab.patch('ir', '/home/jona/v30-7.wav')
+    tonestack.param('master', '-3')
 
-# #Kick
-sequencer.param('grid_1_1', 120)
-sequencer.param('grid_5_1', 120)
-sequencer.param('grid_8_1', 120)
-# # Snare
-sequencer.param('grid_3_2', 120)
-sequencer.param('grid_7_2', 120)
+def patch2():
+    amp.patch('model', '/home/jona/Desktop/NAM/Dual Recto RED + Mudkiller.nam')
+    cab.patch('ir', '/home/jona/v30-7.wav')
+    tonestack.param('master', '3')
 
+sequencer.toggle()
+drumkit.toggle()
 
-for i in range(1,9):
-    sequencer.param(f"grid_{i}_3", 120)
-
-#host.transport(True, 128, 128)
+ampManager = PatchManager(amp, '.nam', '/home/jona/work/nam', '/home/jona/work/test')
+cabManager = PatchManager(cab, '.wav', '/home/jona/work/irs', '/home/jona/work/test')

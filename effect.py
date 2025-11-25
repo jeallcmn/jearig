@@ -1,8 +1,10 @@
 
 import util
-
+import os
+import json
 class BaseEffect:
-    def __init__(self, host, name):
+    def __init__(self, plugin, host, name):
+        self.plugin = plugin
         self.host = host
         self.name = name
         
@@ -20,14 +22,18 @@ class BaseEffect:
             self.host.jack.connect(connection[0], connection[1])
 class SystemEffect(BaseEffect):
     def __init__(self, host):
-        BaseEffect.__init__(self, host, "system")
+        BaseEffect.__init__(self, None, host, "system")
 
 class Effect(BaseEffect):
-    def __init__(self,  host, uri):
+    
+    
+    def __init__(self, plugin, host, uri, globalEffect=False):
         self.id = host.add(uri)
-        BaseEffect.__init__(self, host, f"effect_{self.id}")
+        BaseEffect.__init__(self, plugin, host, f"effect_{self.id}")
         self.enabled = True
         self.uri = uri
+        self.globalEffect = globalEffect
+        self.patchValue = None
     
     def set_enabled(self, b):
         self.enabled = b
@@ -42,6 +48,28 @@ class Effect(BaseEffect):
             self.set_enabled(True)
     def param(self, name, value):
         self.host.param_set(self.id, name, value)
-    def patch(self, name, value):
-        self.host.patch_set(self.id, f"{self.uri}#{name}", value)
-        
+    def get_param(self, name):
+        return self.host.param_get(self.id, name)
+    def patch(self, value):
+        self.patchValue = value
+        self.host.patch_set(self.id, self.plugin.get_patch_controls(), value)
+    def get_patch(self):
+        return self.patchValue
+       
+
+    def parameter_map(self):
+        return dict([(f, self.get_param(f)) for f in self.plugin.get_input_controls()])
+    
+    def get_state(self):
+        return {
+            "enabled": self.enabled,
+            "parameters": self.parameter_map(),
+            "patch": self.patchValue
+        }
+    
+    def set_state(self,state):
+        if self.plugin.patch and state["patch"]:
+            self.patch(state["patch"])
+        for k,v in state["parameters"].items():
+            self.param(k,v)
+        self.set_enabled(state["enabled"])
