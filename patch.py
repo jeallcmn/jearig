@@ -1,9 +1,11 @@
 import os
 
+from effect import Effect
+
 # manages available patches in a set folder:
 # <set>/<patch>.<extension>
 class PatchManager:
-    def __init__(self, effect, extension, input_dir, output_dir):
+    def __init__(self, effect: Effect, extension: str, input_dir: str, output_dir: str):
         self.sets = []
         self.patches =[]
         self.setIndex = 0

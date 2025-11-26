@@ -1,40 +1,54 @@
 
+from host import Host
+from lv2plugin import Plugin
 import util
 import os
 import json
+
 class BaseEffect:
-    def __init__(self, plugin, host, name):
+    def __init__(self, plugin: Plugin, host: Host, name:str):
         self.plugin = plugin
-        self.host = host
+        self.host: Host = host
         self.name = name
-        
-    
         self.audio_inputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_audio=True, is_physical=False, is_input=True, is_output=False)
         self.audio_outputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_audio=True, is_physical=False, is_input=False, is_output=True)
         self.midi_inputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_midi=True, is_physical=False, is_input=True, is_output=False)
         self.midi_outputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_midi=True, is_physical=False, is_input=False, is_output=True)
+        # store logical connections created via connect/connect_midi so they can be serialized
+        self.connections = []
 
-    def connect(self, target):
+    def connect(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
+            # connect actual JACK ports
             self.host.jack.connect(connection[0], connection[1])
-    def connect_midi(self, target):
+            # record logical connection (use effect instance names which are unique in this app)
+            self.connections.append({"type": "audio", "dst": target.name})
+            target.connections.append({"type": "audio", "src": self.name})
+            
+    def connect_midi(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.midi_outputs, target.midi_inputs):
             self.host.jack.connect(connection[0], connection[1])
+            self.connections.append({"type": "midi", "dst": target.name})
+            target.connections.append({"type": "midi", "src": self.name})
+
 class SystemEffect(BaseEffect):
-    def __init__(self, host):
+    def __init__(self, host: Host):
         BaseEffect.__init__(self, None, host, "system")
 
 class Effect(BaseEffect):
     
-    
-    def __init__(self, plugin, host, uri, globalEffect=False):
-        self.id = host.add(uri)
+    def __init__(self, plugin: Plugin, host: Host, uri: str, globalEffect:bool=False):
+        self.id: int = host.add(uri)
         BaseEffect.__init__(self, plugin, host, f"effect_{self.id}")
-        self.enabled = True
-        self.uri = uri
-        self.globalEffect = globalEffect
-        self.patchValue = None
+        self.enabled:bool = True
+        self.uri:str = uri
+        self.globalEffect:bool = globalEffect
+        self.patchValue:str = None
     
+    def remove(self):
+        self.host.remove(self.id)
+
+
     def set_enabled(self, b):
         self.enabled = b
         if(self.enabled):
@@ -62,6 +76,8 @@ class Effect(BaseEffect):
     
     def get_state(self):
         return {
+            "name": self.plugin.name,
+            "uri": self.uri,
             "enabled": self.enabled,
             "parameters": self.parameter_map(),
             "patch": self.patchValue

@@ -1,8 +1,8 @@
 import json
-import effect
+from host import Host
 
 class Port:
-    def __init__(self, json):
+    def __init__(self, json: dict):
         self.name = json['lv2:name']
         self.symbol = json['lv2:symbol']
         self.types = json['@type']
@@ -32,12 +32,12 @@ class Port:
         return desc
 
 class Plugin:
-    def load(file):
+    def load(file: str):
         print(f"Loading {file}")
         with open(file) as jsonFile:
             return Plugin(json.load(jsonFile))
         
-    def __init__(self, json):
+    def __init__(self, json: dict):
         self.uri = json.get('@id')
         self.name = json.get('doap:name') or 'Unknown Effect'
         self.ports = []
@@ -47,10 +47,12 @@ class Plugin:
     def __str__(self):
         ports = "\n\t\t".join([str(p) for p in self.ports])
         return f"{self.name} ({self.uri})\n\tPorts:\n\t\t{ports}\n\tPatch:{self.patch}"
-    def create_global_effect(self, host):
+    def create_global_effect(self, host: Host):
+        import effect
         e = effect.Effect(self, host, self.uri, globalEffect=True)
         return e
-    def create_effect(self, host):
+    def create_effect(self, host: Host):
+        import effect
         e = effect.Effect(self, host, self.uri)
         return e
     def get_input_controls(self):
@@ -58,35 +60,4 @@ class Plugin:
     
     def get_patch_controls(self):
         return self.patch['@id']
-    
-    # import sys
-    # plugin = Plugin.load(sys.argv[1])
-    # with open(sys.argv[1]) as file:
-    #     plugin = Plugin(json.load(file))
-    #     print(plugin)
-
-# class Entry:
-#     def __init__(self, indent, name, children=[]):
-#         self.indent = indent
-#         self.name = name
-#         self.children = children
-
-#     def get_indents(line):
-#         return len(line) - len(lin.lstrip())
-     
-#     def read_from_lines(indent, lines):
-
-        
-
-# lines = []
-
-# with open('plugins/nam.plugin') as file:
-#     lines = [line for line in file]
-
-# #print (lines)
-# uri = lines[0].strip()
-
-# lines = lines[2:]
-
-# print(lines)
 

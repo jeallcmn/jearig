@@ -13,6 +13,9 @@ cd plugins
 
 
 ```bash
+pip3 install textual
+pip3 install textual-dev
+pip3 install textural[syntax]
 sudo apt-get install xclip
 
 pip3 install "kivy[base]"

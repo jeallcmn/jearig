@@ -8,13 +8,19 @@
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#"
   },
   "@id": "http://github.com/mikeoliphant/neural-amp-modeler-lv2",
+  "http://lv2plug.in/ns/ext/options#supportedOption": {
+    "@id": "http://lv2plug.in/ns/ext/buf-size#maxBlockLength"
+  },
   "http://lv2plug.in/ns/ext/patch#writable": {
     "@id": "http://github.com/mikeoliphant/neural-amp-modeler-lv2#model"
   },
   "lv2:binary": {
-    "@id": "file:///home/jona/.lv2/neural_amp_modeler.lv2/neural_amp_modeler.so"
+    "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/neural_amp_modeler.so"
   },
   "lv2:extensionData": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/options#interface"
+    },
     {
       "@id": "http://lv2plug.in/ns/ext/state#interface"
     },
@@ -22,11 +28,19 @@
       "@id": "http://lv2plug.in/ns/ext/worker#interface"
     }
   ],
-  "lv2:microVersion": 1,
-  "lv2:minorVersion": 0,
-  "lv2:optionalFeature": {
-    "@id": "lv2:hardRTCapable"
-  },
+  "lv2:microVersion": 9,
+  "lv2:minorVersion": 1,
+  "lv2:optionalFeature": [
+    {
+      "@id": "http://lv2plug.in/ns/ext/options#options"
+    },
+    {
+      "@id": "http://lv2plug.in/ns/ext/state#threadSafeRestore"
+    },
+    {
+      "@id": "lv2:hardRTCapable"
+    }
+  ],
   "lv2:port": [
     {
       "http://lv2plug.in/ns/ext/atom#bufferType": {
@@ -142,20 +156,60 @@
       "@id": "http://lv2plug.in/ns/ext/worker#schedule"
     }
   ],
+  "http://moddevices.com/ns/modgui#gui": {
+    "http://moddevices.com/ns/modgui#discussionURL": {
+      "@id": "https://forum.mod.audio/t/neural-amp-modeler/10112"
+    },
+    "http://moddevices.com/ns/modgui#iconTemplate": {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/modgui/icon-nam.html"
+    },
+    "http://moddevices.com/ns/modgui#port": [
+      {
+        "lv2:index": 1,
+        "lv2:name": "Output Lvl",
+        "lv2:symbol": "output_level"
+      },
+      {
+        "lv2:index": 0,
+        "lv2:name": "Input Lvl",
+        "lv2:symbol": "input_level"
+      }
+    ],
+    "http://moddevices.com/ns/modgui#resourcesDirectory": {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/modgui"
+    },
+    "http://moddevices.com/ns/modgui#screenshot": {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/modgui/screenshot-nam.png"
+    },
+    "http://moddevices.com/ns/modgui#stylesheet": {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/modgui/stylesheet-nam.css"
+    },
+    "http://moddevices.com/ns/modgui#thumbnail": {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/modgui/thumbnail-nam.png"
+    }
+  },
   "doap:license": {
-    "@id": "http://opensource.org/licenses/MIT"
+    "@id": "http://opensource.org/licenses/gpl-3-0"
   },
   "doap:maintainer": {
-    "@id": "http://github.com/mikeoliphant"
+    "foaf:homepage": {
+      "@id": "http://github.com/mikeoliphant"
+    },
+    "foaf:name": "Mike Oliphant"
   },
   "doap:name": "Neural Amp Modeler",
   "@type": [
-    "lv2:AmplifierPlugin",
     "lv2:Plugin",
+    "lv2:SimulatorPlugin",
     "doap:Project"
   ],
-  "rdfs:comment": "An LV2 implementation of Neural Amp Modeler",
-  "rdfs:seeAlso": {
-    "@id": "file:///home/jona/.lv2/neural_amp_modeler.lv2/neural_amp_modeler.ttl"
-  }
+  "rdfs:comment": "\nLV2 plugin for neural network machine learning guitar amplifier simulation models\n\nModels supported:\n  Neural Amp Modeler (NAM): https://github.com/sdatkinson/neural-amp-modeler\n  RTNeural keras/Aida-x models: https://github.com/jatinchowdhury18/RTNeural\n\nA large collection of models is available at https://tonehunt.org\n",
+  "rdfs:seeAlso": [
+    {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/modgui.ttl"
+    },
+    {
+      "@id": "file:///usr/local/lib/lv2/neural_amp_modeler.lv2/neural_amp_modeler.ttl"
+    }
+  ]
 }
