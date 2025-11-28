@@ -25,20 +25,27 @@ class BaseEffect:
             state[s.name] = [x.name for x in self.host.jack.get_all_connections(s)]            
         return state
 
+    def _disconnect_port(self, p):
+        try:
+            p.disconnect()
+        except jack.JackError as e:
+            print(f"Unabled to disconnect {p.name}")
+            pass 
+
+    def disconnect_all(self):
+        for c in self.audio_inputs:
+            self._disconnect_port(c)
+        for c in self.audio_outputs:
+            self._disconnect_port(c)
+        for c in self.midi_inputs:
+            self._disconnect_port(c)
+        for c in self.midi_inputs:
+            self._disconnect_port(c)
+            
     def disconnect(self, target: 'BaseEffect'):
-
         for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
-            # connect actual JACK ports
-            try:
-                self.host.jack.disconnect(connection[0], connection[1])
-            except jack.JackError as e :
-                print(f"Unable to disconnect: {connection[0].name} -> {connection[1].name}: {e.message}")
-                pass
-
-           
-            # # record logical connection (use effect instance names which are unique in this app)
-            # self.connections.append({"type": "audio", "dst": target.name})
-           
+            self._disconnect_port(connection)
+    
 
     def connect(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
@@ -74,6 +81,9 @@ class Effect(BaseEffect):
     
     def remove(self):
         self.host.remove(self.id)
+
+    def disconnect_all(self):
+        """ Disconnect all connections with the prefix "effect" """
 
 
     def set_enabled(self, b):
