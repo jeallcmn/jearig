@@ -13,6 +13,8 @@ class ModProtocol:
         return f"connect {src} {dst}"
     def disconnect(self, src: str, dst: str):
         return f"disconnnect {src} {dst}"
+    def disconnect_all(self, src: str):
+        return f"disconnnect_all {src}"    
     def set_bpm(self, num:int):
         return f"set_bpm {num}"
     def set_bpb(self, num: int):
@@ -124,6 +126,8 @@ class Host():
         return self.connection.send(self.protocol.connect(src, dst))
     def disconnect(self, src: str, dst: str):
         return self.connection.send(self.protocol.disconnect(src, dst))
+    def disconnect_all(self, src: str, dst: str):
+        return self.connection.send(self.protocol.disconnect_all(src))
     def set_bpm(self, num:int):
         return self.connection.send(self.protocol.set_bpm(num))
     def set_bpb(self, num:int):
