@@ -50,6 +50,34 @@ class Pedalboard():
 
         return effect
     
+    def insert_effect_after(self, pluginName: str, after_effect: Effect, id: int = None):
+        """Create an effect and insert it after the specified effect in the chain, handling connections."""
+        effect = Pedalboard.find_plugin(pluginName).create_effect(self.host, id)
+        
+        # Find the index of the after_effect
+        try:
+            index = self.effects.index(after_effect)
+            next_effect = self.effects[index + 1] if index + 1 < len(self.effects) else None
+            
+            # Disconnect after_effect from next_effect
+            if next_effect:
+                after_effect.disconnect(next_effect)
+            
+            # Insert the new effect after after_effect
+            self.effects.insert(index + 1, effect)
+            
+            # Connect after_effect to the new effect
+            after_effect.connect(effect)
+            
+            # Connect the new effect to the next effect (if it exists)
+            if next_effect:
+                effect.connect(next_effect)
+        except ValueError:
+            # If after_effect not found, append to the end
+            self.effects.append(effect)
+        
+        return effect
+    
     def reset(self):
         for e in self.effects:
             e.remove()
