@@ -4,6 +4,7 @@ from lv2plugin import Plugin
 import util
 import os
 import json
+import jack
 
 class BaseEffect:
     def __init__(self, plugin: Plugin, host: Host, name:str):
@@ -14,22 +15,48 @@ class BaseEffect:
         self.audio_outputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_audio=True, is_physical=False, is_input=False, is_output=True)
         self.midi_inputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_midi=True, is_physical=False, is_input=True, is_output=False)
         self.midi_outputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_midi=True, is_physical=False, is_input=False, is_output=True)
-        # store logical connections created via connect/connect_midi so they can be serialized
-        self.connections = []
+
+    def get_output_connection_state(self):
+        """ Connections are owned by the source, which is effect that owns the audio outputs"""
+        state = {}
+        for s in self.audio_outputs:
+            state[s.name] = [x.name for x in self.host.jack.get_all_connections(s)]
+        for s in self.midi_outputs:
+            state[s.name] = [x.name for x in self.host.jack.get_all_connections(s)]            
+        return state
+
+    def disconnect(self, target: 'BaseEffect'):
+
+        for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
+            # connect actual JACK ports
+            try:
+                self.host.jack.disconnect(connection[0], connection[1])
+            except jack.JackError as e :
+                print(f"Unable to disconnect: {connection[0].name} -> {connection[1].name}: {e.message}")
+                pass
+
+           
+            # # record logical connection (use effect instance names which are unique in this app)
+            # self.connections.append({"type": "audio", "dst": target.name})
+           
 
     def connect(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
             # connect actual JACK ports
-            self.host.jack.connect(connection[0], connection[1])
-            # record logical connection (use effect instance names which are unique in this app)
-            self.connections.append({"type": "audio", "dst": target.name})
-            target.connections.append({"type": "audio", "src": self.name})
+            try:
+                self.host.jack.connect(connection[0], connection[1])
+            except jack.JackError as e :
+                print(f"Unable to connect: {connection[0].name} -> {connection[1].name}: {e.message}")
+                pass
+            # # record logical connection (use effect instance names which are unique in this app)
+            # self.connections.append({"type": "audio", "dst": target.name})
+            # target.connections.append({"type": "audio", "src": self.name})
             
     def connect_midi(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.midi_outputs, target.midi_inputs):
             self.host.jack.connect(connection[0], connection[1])
-            self.connections.append({"type": "midi", "dst": target.name})
-            target.connections.append({"type": "midi", "src": self.name})
+            # self.connections.append({"type": "midi", "dst": target.name})
+            # target.connections.append({"type": "midi", "src": self.name})
 
 class SystemEffect(BaseEffect):
     def __init__(self, host: Host):
@@ -37,8 +64,8 @@ class SystemEffect(BaseEffect):
 
 class Effect(BaseEffect):
     
-    def __init__(self, plugin: Plugin, host: Host, uri: str, globalEffect:bool=False):
-        self.id: int = host.add(uri)
+    def __init__(self, plugin: Plugin, host: Host, uri: str, id: int = None, globalEffect:bool=False):
+        self.id: int = host.add(uri, id)
         BaseEffect.__init__(self, plugin, host, f"effect_{self.id}")
         self.enabled:bool = True
         self.uri:str = uri
@@ -76,6 +103,7 @@ class Effect(BaseEffect):
     
     def get_state(self):
         return {
+            "id": self.id,
             "name": self.plugin.name,
             "uri": self.uri,
             "enabled": self.enabled,
@@ -84,6 +112,7 @@ class Effect(BaseEffect):
         }
     
     def set_state(self,state):
+        """ id, state, uri are used for creating the effect, this only applies the state"""
         if self.plugin.patch and state["patch"]:
             self.patch(state["patch"])
         for k,v in state["parameters"].items():

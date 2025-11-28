@@ -86,7 +86,7 @@ class Host():
         self.set_xrun_callback(Host.print_xrun)
         self.jack.activate()
 
-        self.effects = []
+        self.ids = []
         #register shutdown hooks
         @atexit.register
         def cleanup():
@@ -94,6 +94,14 @@ class Host():
         def terminate(arg1, arg2):
             self.remove_all()
         signal.signal(signal.SIGTERM, terminate)
+
+    def get_random_id(self):
+        import random
+        id = random.randint(0, 9000)
+        while id in self.ids:
+            id = random.randint(0, 9000)
+        self.ids.append(id)
+        return id
 
     def print_xrun(msg: str):
         # print(f"XRun: {msg}")
@@ -103,12 +111,14 @@ class Host():
     def set_xrun_callback(self, callback):
         return self.jack.set_xrun_callback(callback)
 
-    def add(self, uri: str):
-        id = len(self.effects)
-        self.effects.append(id)
+    def add(self, uri: str, id: int = None):
+        if not id:
+            id = self.get_random_id()
+        self.ids.append(id)
         self.connection.send(self.protocol.add(uri, id))
         return id
     def remove(self, id:int):
+        self.ids.remove(id)
         return self.connection.send(self.protocol.remove(id))
     def connect(self, src: str, dst: str):
         return self.connection.send(self.protocol.connect(src, dst))
@@ -158,6 +168,5 @@ class Host():
     def quit(self):
         return self.connection.send(self.protocol.quit())
     def remove_all(self):
-        for i in self.effects:
-            self.remove(i)        
-
+        for i in self.ids:
+            self.remove(i)   

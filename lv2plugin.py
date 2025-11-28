@@ -51,9 +51,9 @@ class Plugin:
         import effect
         e = effect.Effect(self, host, self.uri, globalEffect=True)
         return e
-    def create_effect(self, host: Host):
+    def create_effect(self, host: Host, id: int = None):
         import effect
-        e = effect.Effect(self, host, self.uri)
+        e = effect.Effect(self, host, self.uri, id)
         return e
     def get_input_controls(self):
         return [p.symbol for p in self.ports if p.is_control and p.is_input]

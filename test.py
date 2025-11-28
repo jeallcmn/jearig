@@ -7,49 +7,32 @@ from patch import PatchManager
 from pedalboard import Pedalboard
 host = Host()
 
-# pluginNames = ['amp', 'cab', 'globalEq', 'hallReverb', 'tonestack', 'sequencer', 'drumkit']
-# plugins = dict([(name,lv2plugin.Plugin.load(f"plugins/{name}.json")) for name in pluginNames])
-
-# device = SystemEffect(host)
-# # Use only second input
-# device.audio_outputs = device.audio_outputs[1:]
-
-pedalboard = Pedalboard(host)
-
-# amp         = plugins['amp'].create_effect(host)
-# tonestack   = plugins['tonestack'].create_effect(host)
-# cab         = plugins['cab'].create_effect(host)
-# hallReverb  = plugins['hallReverb'].create_effect(host)
-# globalEq    = plugins['globalEq'].create_effect(host)
-
-# sequencer  = plugins['sequencer'].create_global_effect(host)
-# drumkit  = plugins['drumkit'].create_global_effect(host)
-
-# stateManager = StateManager()
-
-amp       = pedalboard.create_effect("Neural Amp Modeler", True)
-tonestack = pedalboard.create_effect("3 Band EQ", True)
-cab       = pedalboard.create_effect("IR loader cabsim", True)
-eq        = pedalboard.create_effect("EQ4Q Stereo", True)
-reverb    = pedalboard.create_effect("Dragonfly Hall Reverb", True)
-
-s1 = pedalboard.get_state()
-
-# pedalboard.remove_all()
-
-# pedalboard.set_state(s1)
+pedalboard = Pedalboard("sequencer", host)
 
 
-# device.connect(amp)
-# amp.connect(cab) 
-# cab.connect(tonestack)
-# tonestack.connect(hallReverb)
-# hallReverb.connect(globalEq)
-# globalEq.connect(device)
 
-# drumkit.connect(hallReverb)
+stateManager = StateManager()
 
-# sequencer.connect_midi(drumkit)
+amp       = pedalboard.create_effect("Neural Amp Modeler")
+tonestack = pedalboard.create_effect("3 Band EQ")
+cab       = pedalboard.create_effect("IR loader cabsim")
+eq        = pedalboard.create_effect("EQ4Q Stereo")
+reverb    = pedalboard.create_effect("Dragonfly Hall Reverb")
+sequencer    = pedalboard.create_effect("MIDI Step Sequencer8x8")
+drumkit    = pedalboard.create_effect("Red Zeppelin Drumkit")
+
+
+device = pedalboard.device
+
+device.connect(amp)
+amp.connect(tonestack)
+tonestack.connect(cab)
+cab.connect(eq)
+eq.connect(reverb)
+reverb.connect(device)
+
+drumkit.connect(reverb)
+sequencer.connect_midi(drumkit)
 
 #Configure ToneStack
 tonestack.param('low', 0)
@@ -67,18 +50,20 @@ eq.param('filter4_freq', 8000)
 eq.param('filter4_q', .7)
 
 amp.patch('/home/jona/Desktop/5150-2.nam')
-cab.patch('/home/jona/v30-7.wav')
+cab.patch('/home/jona/m25.wav')
 
 reverb.param('size', 40)
 reverb.param('decay', 1.1)
 reverb.param('early_send', 10)
 
 
-# kit = DrumKit(sequencer)
+kit = DrumKit(sequencer)
 
-# kit.set_kick([120,0,0,0,120,0,0,0])
-# kit.set_snare([0,0,120,0,0,0,120,0])
-# kit.set_hihat([120,120,120,120,120,120,120,120])
+kit.set_kick([120,0,0,0,120,0,0,0])
+kit.set_snare([0,0,120,0,0,0,120,0])
+kit.set_hihat([120,120,120,120,120,120,120,120])
+
+stateManager.save_pedalboard(pedalboard)
 
 # def patch1():
 #     amp.patch('model', '/home/jona/Desktop/5150-2.nam')
