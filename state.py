@@ -2,7 +2,7 @@ import os
 import json
 
 from effect import Effect
-from pedalboard import Pedalboard
+
 
 class StateManager:
     preset_base_dir = "/home/jona/.jearig/"
@@ -25,13 +25,13 @@ class StateManager:
         else:
             return []
         
-    def save_pedalboard(self, pedalboard):
+    def save_pedalboard(self, pedalboard: 'Pedalboard'):
         file = os.path.join(StateManager.pedalboard_base_dir, pedalboard.name+'.json')
         os.makedirs(StateManager.pedalboard_base_dir, exist_ok=True)
         state = pedalboard.get_state()
         self.save_state(state, file)
 
-    def load_pedalboard(self, name: str, pedalboard: Pedalboard):
+    def load_pedalboard(self, name: str, pedalboard: 'Pedalboard'):
         pedalboard.reset()
         file = os.path.join(StateManager.pedalboard_base_dir, name+'.json')
         os.makedirs(StateManager.pedalboard_base_dir, exist_ok=True)

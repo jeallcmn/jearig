@@ -6,6 +6,34 @@ import os
 import json
 import jack
 
+
+# class EffectJack:
+#     def __initj__(self, effect: 'Effect', port: jack.Port):
+#         self.effect: 'Effect' = effect
+#         self.port = port
+        
+
+# class Cable:
+#     def __init__(self, source: EffectJack, target: EffectJack):
+#         self.source = sources
+#         self.target = target
+#         self.source.conn
+#     def is_midi(self):
+#         return self.source.is_midi
+#     def is_audio(self):
+#         return self.source.is_audio
+
+        
+# class ConnectionManager():
+#     def __init__(self, jack: jack.Client):
+#         self.connections = []
+#         self.jack = jack
+#     def connect(self, src: jack.Port, tgt: jack.Port):
+#         jack.connect(src, tgt)
+#         self.connections.append(Connection(src, tgt))
+    
+
+
 class BaseEffect:
     def __init__(self, plugin: Plugin, host: Host, name:str):
         self.plugin = plugin
@@ -25,13 +53,6 @@ class BaseEffect:
             state[s.name] = [x.name for x in self.host.jack.get_all_connections(s)]            
         return state
 
-    def _disconnect_port(self, p):
-        try:
-            p.disconnect()
-        except jack.JackError as e:
-            print(f"Unabled to disconnect {p.name}")
-            pass 
-
     def disconnect_all(self):
         for c in self.audio_inputs:
             self._disconnect_port(c)
@@ -41,7 +62,10 @@ class BaseEffect:
             self._disconnect_port(c)
         for c in self.midi_inputs:
             self._disconnect_port(c)
-            
+        
+        self.upstream_audio_connections = []
+        self.downstream_audio_connections = []
+
     def disconnect(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
             self._disconnect_port(connection)
@@ -55,15 +79,15 @@ class BaseEffect:
             except jack.JackError as e :
                 print(f"Unable to connect: {connection[0].name} -> {connection[1].name}: {e.message}")
                 pass
-            # # record logical connection (use effect instance names which are unique in this app)
-            # self.connections.append({"type": "audio", "dst": target.name})
-            # target.connections.append({"type": "audio", "src": self.name})
             
     def connect_midi(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.midi_outputs, target.midi_inputs):
             self.host.jack.connect(connection[0], connection[1])
-            # self.connections.append({"type": "midi", "dst": target.name})
-            # target.connections.append({"type": "midi", "src": self.name})
+
+# class PassthroughEffect(BaseEffect):
+#     def __init__(self: host: Host):
+#         self.host.jack.create
+#         pass
 
 class SystemEffect(BaseEffect):
     def __init__(self, host: Host):

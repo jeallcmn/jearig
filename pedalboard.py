@@ -50,6 +50,9 @@ class Pedalboard():
 
         return effect
     
+    def replace_effect(self, new_effect:Effect, old_effect: Effect):
+        pass
+    
     def insert_effect_after(self, pluginName: str, after_effect: Effect, id: int = None):
         """Create an effect and insert it after the specified effect in the chain, handling connections."""
         effect = Pedalboard.find_plugin(pluginName).create_effect(self.host, id)
@@ -104,7 +107,7 @@ class Pedalboard():
     def set_state(self, state):
         self.name = state["name"]
         for s in state["effects"]:
-            e = self.create_effect(s["name"], s["id"], False)
+            e = self.create_effect(s["name"], s["id"])
             e.set_state(s)
         for k,v in state["connections"].items():
             for o in v:
