@@ -1,11 +1,11 @@
 from ui import JEARigUI
 
 import host
-import pedalboard
+import chain
 
 h = host.Host()
-p = pedalboard.Pedalboard("default", h)
+p = chain.EffectChain("default", h)
 
 
-app = JEARigUI(pedalboard)
+app = JEARigUI(chain)
 app.run()

@@ -6,7 +6,7 @@ from effect import Effect
 
 class StateManager:
     preset_base_dir = "/home/jona/.jearig/"
-    pedalboard_base_dir = "/home/jona/.jearig/pedalboards"
+    chain_base_dir = "/home/jona/.jearig/chains"
 
     def __init__(self):
         pass
@@ -25,18 +25,18 @@ class StateManager:
         else:
             return []
         
-    def save_pedalboard(self, pedalboard: 'Pedalboard'):
-        file = os.path.join(StateManager.pedalboard_base_dir, pedalboard.name+'.json')
-        os.makedirs(StateManager.pedalboard_base_dir, exist_ok=True)
-        state = pedalboard.get_state()
+    def save_chain(self, chain: 'EffectChain'):
+        file = os.path.join(StateManager.chain_base_dir, chain.name+'.json')
+        os.makedirs(StateManager.chain_base_dir, exist_ok=True)
+        state = chain.get_state()
         self.save_state(state, file)
 
-    def load_pedalboard(self, name: str, pedalboard: 'Pedalboard'):
-        pedalboard.reset()
-        file = os.path.join(StateManager.pedalboard_base_dir, name+'.json')
-        os.makedirs(StateManager.pedalboard_base_dir, exist_ok=True)
+    def load_chain(self, name: str, chain: 'EffectChain'):
+        chain.reset()
+        file = os.path.join(StateManager.chain_base_dir, name+'.json')
+        os.makedirs(StateManager.chain_base_dir, exist_ok=True)
         state = self.load_state(file)
-        pedalboard.set_state(state)
+        chain.set_state(state)
 
     # def __init__(self):
     #     os.makedirs(StateManager.preset_base_dir, exist_ok=True)

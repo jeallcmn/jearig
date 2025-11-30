@@ -4,10 +4,10 @@ from effect import Effect,SystemEffect
 from drumkit import DrumKit
 from state import StateManager
 from patch import PatchManager
-from pedalboard import Pedalboard
+from chain import EffectChain
 host = Host()
 
-pedalboard = Pedalboard("sequencer", host)
+pedalboard = EffectChain("sequencer", host)
 
 
 
@@ -63,7 +63,7 @@ kit.set_kick([120,0,0,0,120,0,0,0])
 kit.set_snare([0,0,120,0,0,0,120,0])
 kit.set_hihat([120,120,120,120,120,120,120,120])
 
-stateManager.save_pedalboard(pedalboard)
+stateManager.save_chain(pedalboard)
 
 # def patch1():
 #     amp.patch('model', '/home/jona/Desktop/5150-2.nam')

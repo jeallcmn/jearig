@@ -1,10 +1,10 @@
 import host
-import pedalboard
+import chain
 import state
 
 h = host.Host()
-p = pedalboard.Pedalboard("default", h)
+p = chain.EffectChain("default", h)
 sm = state.StateManager()
 
 
-sm.load_pedalboard("sequencer", p)
+sm.load_chain("sequencer", p)

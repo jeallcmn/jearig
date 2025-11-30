@@ -2,7 +2,7 @@ from textual.app import ComposeResult, App
 from textual.containers import Container, Horizontal, Vertical, Grid
 from textual.widgets import Button, Static, Label, ListItem, ListView
 from textual.screen import Screen
-from pedalboard import Pedalboard
+from chain import EffectChain
 from effect import Effect
 import lv2plugin
 
@@ -11,7 +11,7 @@ class PedalboardScreen(Screen):
     
     BINDINGS = [("q", "quit", "Quit")]
     
-    def __init__(self, pedalboard: Pedalboard):
+    def __init__(self, pedalboard: EffectChain):
         super().__init__()
         self.pedalboard = pedalboard
         self.effect_buttons = []
@@ -65,7 +65,7 @@ class ChooseEffectScreen(Screen):
     
     BINDINGS = [("escape", "back", "Back")]
     
-    def __init__(self, pedalboard: Pedalboard, slot: int):
+    def __init__(self, pedalboard: EffectChain, slot: int):
         super().__init__()
         self.pedalboard = pedalboard
         self.slot = slot
@@ -98,7 +98,7 @@ class EditEffectScreen(Screen):
     
     BINDINGS = [("escape", "back", "Back"), ("t", "toggle", "Toggle")]
     
-    def __init__(self, pedalboard: Pedalboard, effect: Effect):
+    def __init__(self, pedalboard: EffectChain, effect: Effect):
         super().__init__()
         self.pedalboard = pedalboard
         self.effect = effect
@@ -158,7 +158,7 @@ class SettingsScreen(Screen):
     
     BINDINGS = [("escape", "back", "Back")]
     
-    def __init__(self, pedalboard: Pedalboard):
+    def __init__(self, pedalboard: EffectChain):
         super().__init__()
         self.pedalboard = pedalboard
     
@@ -263,7 +263,7 @@ class JEARigUI(App):
         ("q", "quit", "Quit"),
     ]
     
-    def __init__(self, pedalboard: Pedalboard):
+    def __init__(self, pedalboard: EffectChain):
         super().__init__()
         self.pedalboard = pedalboard
     

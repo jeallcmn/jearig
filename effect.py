@@ -6,16 +6,25 @@ import os
 import json
 import jack
 
+INPUT_JACK = 0
+OUTPUT_JACK = 1
+
 
 # class EffectJack:
+
 #     def __initj__(self, effect: 'Effect', port: jack.Port):
 #         self.effect: 'Effect' = effect
 #         self.port = port
-        
+#         self.cable = None
+#     def is_input(self):
+#         return self.port.is_input
+#     def is_audio(self):
+#         return self.port.is
+       
 
 # class Cable:
 #     def __init__(self, source: EffectJack, target: EffectJack):
-#         self.source = sources
+#         self.source = source
 #         self.target = target
 #         self.source.conn
 #     def is_midi(self):
@@ -43,6 +52,15 @@ class BaseEffect:
         self.audio_outputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_audio=True, is_physical=False, is_input=False, is_output=True)
         self.midi_inputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_midi=True, is_physical=False, is_input=True, is_output=False)
         self.midi_outputs = self.host.jack.get_ports(name_pattern=f"{self.name}:*", is_midi=True, is_physical=False, is_input=False, is_output=True)
+
+    def get_connected_effect_names(self, ports:list[jack.Port]):
+        effects = []
+        for s in ports:
+            for x in self.host.jack.get_all_connections(s):
+                effects.append(x.split(":")[0])
+        return sorted(list(set((effects))))
+    
+    
 
     def get_output_connection_state(self):
         """ Connections are owned by the source, which is effect that owns the audio outputs"""
