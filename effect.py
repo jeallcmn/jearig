@@ -60,7 +60,6 @@ class BaseEffect:
                 effects.append(x.split(":")[0])
         return sorted(list(set((effects))))
     
-    
 
     def get_output_connection_state(self):
         """ Connections are owned by the source, which is effect that owns the audio outputs"""
