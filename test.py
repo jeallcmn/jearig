@@ -7,22 +7,21 @@ from patch import PatchManager
 from chain import EffectChain
 host = Host()
 
-pedalboard = EffectChain("sequencer", host)
-
+chain = EffectChain("sequencer", host)
 
 
 stateManager = StateManager()
 
-amp       = pedalboard.create_effect("Neural Amp Modeler")
-tonestack = pedalboard.create_effect("3 Band EQ")
-cab       = pedalboard.create_effect("IR loader cabsim")
-eq        = pedalboard.create_effect("EQ4Q Stereo")
-reverb    = pedalboard.create_effect("Dragonfly Hall Reverb")
-sequencer    = pedalboard.create_effect("MIDI Step Sequencer8x8")
-drumkit    = pedalboard.create_effect("Red Zeppelin Drumkit")
+amp       = chain.create_effect("Neural Amp Modeler")
+tonestack = chain.create_effect("3 Band EQ")
+cab       = chain.create_effect("IR loader cabsim")
+eq        = chain.create_effect("EQ4Q Stereo")
+reverb    = chain.create_effect("Dragonfly Hall Reverb")
+sequencer    = chain.create_effect("MIDI Step Sequencer8x8")
+drumkit    = chain.create_effect("Red Zeppelin Drumkit")
 
 
-device = pedalboard.device
+device = chain.device
 
 device.connect(amp)
 amp.connect(tonestack)
@@ -63,7 +62,7 @@ kit.set_kick([120,0,0,0,120,0,0,0])
 kit.set_snare([0,0,120,0,0,0,120,0])
 kit.set_hihat([120,120,120,120,120,120,120,120])
 
-stateManager.save_chain(pedalboard)
+stateManager.save_chain(chain)
 
 # def patch1():
 #     amp.patch('model', '/home/jona/Desktop/5150-2.nam')

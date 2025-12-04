@@ -70,28 +70,43 @@ class BaseEffect:
             state[s.name] = [x.name for x in self.host.jack.get_all_connections(s)]            
         return state
 
-    def disconnect_all(self):
-        for c in self.audio_inputs:
-            self._disconnect_port(c)
-        for c in self.audio_outputs:
-            self._disconnect_port(c)
-        for c in self.midi_inputs:
-            self._disconnect_port(c)
-        for c in self.midi_inputs:
-            self._disconnect_port(c)
-        
-        self.upstream_audio_connections = []
-        self.downstream_audio_connections = []
+    def disconnect_ports(self, ports, target:'BaseEffect' = None):
+        for s in ports:
+            for t in self.host.jack.get_all_connections(s):
+                if (not target) or t.name.startswith(target.name):
+                    print(f"Disconnecting port {s.name} from {None if t is None else t.name}")
+                    if s.is_output:
+                        self.host.jack.disconnect(s, t)
+                    else:
+                        self.host.jack.disconnect(t, s)
 
-    def disconnect(self, target: 'BaseEffect'):
-        for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
-            self._disconnect_port(connection)
-    
+    def disconnect_all(self, target:'BaseEffect' = None):
+        print(f"Disconnection {self.name} from {target and target.name}")
+        if not target:
+            self.disconnect_ports(self.audio_inputs, target)
+        
+        self.disconnect_ports(self.audio_outputs, target)
+
+        if not target:
+            self.disconnect_ports(self.midi_inputs, target)
+        
+        self.disconnect_ports(self.midi_outputs, target)
+
+    def disconnect_all_audio(self, target:'BaseEffect' = None):
+        self.disconnect_ports(self.audio_inputs, target)
+        self.disconnect_ports(self.audio_outputs, target)
+
+    def disconnect_all_midi(self, target:'BaseEffect' = None):
+        self.disconnect_ports(self.midi_inputs, target)
+        self.disconnect_ports(self.midi_outputs, target)    
+
 
     def connect(self, target: 'BaseEffect'):
+        print (f"Conenction {self.name} to {target.name}")
         for connection in util.outer_join(self.audio_outputs, target.audio_inputs):
             # connect actual JACK ports
             try:
+                print(f"Connecting {connection[0].name} to {connection[1].name}")
                 self.host.jack.connect(connection[0], connection[1])
             except jack.JackError as e :
                 print(f"Unable to connect: {connection[0].name} -> {connection[1].name}: {e.message}")
@@ -100,11 +115,6 @@ class BaseEffect:
     def connect_midi(self, target: 'BaseEffect'):
         for connection in util.outer_join(self.midi_outputs, target.midi_inputs):
             self.host.jack.connect(connection[0], connection[1])
-
-# class PassthroughEffect(BaseEffect):
-#     def __init__(self: host: Host):
-#         self.host.jack.create
-#         pass
 
 class SystemEffect(BaseEffect):
     def __init__(self, host: Host):
@@ -121,10 +131,8 @@ class Effect(BaseEffect):
         self.patchValue:str = None
     
     def remove(self):
+        self.disconnect_all()
         self.host.remove(self.id)
-
-    def disconnect_all(self):
-        """ Disconnect all connections with the prefix "effect" """
 
 
     def set_enabled(self, b):
@@ -147,10 +155,12 @@ class Effect(BaseEffect):
         self.host.patch_set(self.id, self.plugin.get_patch_controls(), value)
     def get_patch(self):
         return self.patchValue
-       
 
+    def get_parameter_names(self):
+        return [x.symbol for x in self.plugin.get_input_controls()]
+    
     def parameter_map(self):
-        return dict([(f, self.get_param(f)) for f in self.plugin.get_input_controls()])
+        return dict([(f, self.get_param(f.symbol)) for f in self.plugin.get_input_controls()])
     
     def get_state(self):
         return {

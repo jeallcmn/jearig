@@ -5,8 +5,8 @@ from effect import Effect
 
 
 class StateManager:
-    preset_base_dir = "/home/jona/.jearig/"
-    chain_base_dir = "/home/jona/.jearig/chains"
+    preset_base_dir = "./presets/"
+    chain_base_dir = "./chains/"
 
     def __init__(self):
         pass
@@ -23,7 +23,7 @@ class StateManager:
                 state = json.load(f)
                 return state;
         else:
-            return []
+            return None
         
     def save_chain(self, chain: 'EffectChain'):
         file = os.path.join(StateManager.chain_base_dir, chain.name+'.json')
@@ -36,7 +36,10 @@ class StateManager:
         file = os.path.join(StateManager.chain_base_dir, name+'.json')
         os.makedirs(StateManager.chain_base_dir, exist_ok=True)
         state = self.load_state(file)
-        chain.set_state(state)
+        if state:
+            chain.set_state(state)
+        else:
+            print(f"Unable to load state: {name}")
 
     # def __init__(self):
     #     os.makedirs(StateManager.preset_base_dir, exist_ok=True)

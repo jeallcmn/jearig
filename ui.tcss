@@ -1,0 +1,14 @@
+Screen {
+    align: center middle;
+    padding: 1;
+}
+
+#buttons {
+    height: 10%;
+    width: auto;
+}
+ContentSwitcher {
+    border: round $primary;
+    width: 100%;
+    height: 90%;
+}

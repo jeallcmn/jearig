@@ -37,61 +37,32 @@ class EffectChain():
 
         self.state_manager = state.StateManager()
 
-    def set_bpm(self, beats_per_measure: int, beats_per_minute: int):
+    def set_bpm(self, beats_per_measure: int, beats_per_minute: int) -> None:
         self.host.transport(1, beats_per_measure, beats_per_minute)
 
 
-    def get_effect(self, name: str):
-        return self.effects[name]
+    def get_effect(self, name: str) -> Effect:
+        return self.effects.get(name)
     
-    def create_effect(self, pluginName: str, id: int = None):
+    def create_effect(self, pluginName: str, id: int = None) -> Effect:
         effect = EffectChain.find_plugin(pluginName).create_effect(self.host, id)
         self.effects[effect.name] = effect
 
         return effect
-    
-    def replace_effect(self, new_effect:Effect, old_effect: Effect):
-        pass
+   
 
-    # def insert_effect_after(self, pluginName: str, after_effect: Effect, id: int = None):
-    #     """Create an effect and insert it after the specified effect in the chain, handling connections."""
-    #     effect = Pedalboard.find_plugin(pluginName).create_effect(self.host, id)
-        
-    #     # Find the index of the after_effect
-    #     try:
-    #         index = self.effects.index(after_effect)
-    #         next_effect = self.effects[index + 1] if index + 1 < len(self.effects) else None
-            
-    #         # Disconnect after_effect from next_effect
-    #         if next_effect:
-    #             after_effect.disconnect(next_effect)
-            
-    #         # Insert the new effect after after_effect
-    #         self.effects.insert(index + 1, effect)
-            
-    #         # Connect after_effect to the new effect
-    #         after_effect.connect(effect)
-            
-    #         # Connect the new effect to the next effect (if it exists)
-    #         if next_effect:
-    #             effect.connect(next_effect)
-    #     except ValueError:
-    #         # If after_effect not found, append to the end
-    #         self.effects.append(effect)
-        
-    #     return effect
-    
-    def reset(self):
+    def reset(self) -> None:
         for e in self.effects.values():
             e.remove()
         self.effects.clear()
         
 
-    def remove_effect(self, name: str):
+    def remove_effect(self, name: str) -> Effect:
         e = self.effects.pop(name)
         e.remove()
+        e
     
-    def get_state(self):
+    def get_state(self) -> dict:
         state = {
             "name": self.name,
             "effects": [e.get_state() for e in self.effects],
@@ -105,7 +76,7 @@ class EffectChain():
         state["connections"] = connections
         return state
     
-    def set_state(self, state):
+    def set_state(self, state) -> None:
         self.name = state["name"]
         for s in state["effects"]:
             e = self.create_effect(s["name"], s["id"])
@@ -117,11 +88,11 @@ class EffectChain():
                 except jack.JackError as e :
                     print(f"Unable to connect: {k} -> {o}: {e.codemessage}")
                     pass
-    def save(self, name: None):
+    def save(self, name: None) -> None:
         if name:
             self.name = name
         self.state_manager.save_chain(self)
-    def load(self, name: str):
+    def load(self, name: str) -> None:
         self.state_manager.load_chain(name, self)
 
 

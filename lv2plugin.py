@@ -25,6 +25,7 @@ class Port:
             if not isinstance(self.minimum, (int)):
                 self.minimum = json['lv2:minimum']['@value']
 
+
     def __str__(self):
         desc = f"Port: {self.symbol}, Output:{self.is_output}, Input:{self.is_input}, Control:{self.is_control}, Audio:{self.is_audio}"
         if(self.is_control):
@@ -32,7 +33,7 @@ class Port:
         return desc
 
 class Plugin:
-    def load(file: str):
+    def load(file: str) -> 'Plugin':
         print(f"Loading {file}")
         with open(file) as jsonFile:
             return Plugin(json.load(jsonFile))
@@ -56,8 +57,9 @@ class Plugin:
         e = effect.Effect(self, host, self.uri, id)
         return e
     def get_input_controls(self):
-        return [p.symbol for p in self.ports if p.is_control and p.is_input]
-    
+        return [p for p in self.ports if p.is_control and p.is_input]
+    def get_input_control_map(self):
+        return dict([(p.symbol, p) for p in self.get_input_controls()])
+
     def get_patch_controls(self):
         return self.patch['@id']
-

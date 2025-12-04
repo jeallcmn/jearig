@@ -172,5 +172,5 @@ class Host():
     def quit(self):
         return self.connection.send(self.protocol.quit())
     def remove_all(self):
-        for i in self.ids:
+        for i in self.ids[:]:
             self.remove(i)   
